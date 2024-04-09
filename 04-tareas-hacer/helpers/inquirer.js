@@ -46,10 +46,10 @@ const preguntas = [
 const inquirerMenu = async () => {
     console.clear();
     console.log('==========================='.green);
-    console.log(`   ${'Seleccione una opcion'.white}`);
+    console.log(`✨ ${'Seleccione una opcion ✨'.white}`);
     console.log('==========================='.green);
     const { opcion } = await inquirer.prompt(preguntas)
-    
+
     return opcion;
 }
 
@@ -66,6 +66,7 @@ const pausa = async () => {
 }
 
 const leerInput = async (message) => {
+
     const question = [
         {
             type: 'input',
@@ -76,17 +77,20 @@ const leerInput = async (message) => {
                     return ' Por favor ingrese un valor'
                 }
                 return true
-            }
+            },
+
         }
+
     ];
+ 
     const { desc } = await inquirer.prompt(question)
     return desc;
 }
 
-const listadoTareasBorrar = async(tareas = [])=>{ 
+const listadoTareasBorrar = async (tareas = []) => {
 
     const choices = tareas.map((tarea, i) => {
-        const idx = `${i+1}`.green
+        const idx = `${i + 1}`.green
         return {
             value: tarea.id,
             name: `${idx}. ${tarea.desc} `
@@ -110,7 +114,7 @@ const listadoTareasBorrar = async(tareas = [])=>{
 
 }
 
-const confirmar = async(message) =>{
+const confirmar = async (message) => {
     const question = [
         {
             type: 'confirm',
@@ -122,10 +126,10 @@ const confirmar = async(message) =>{
     return ok;
 }
 
-const mostrarListadoCheckList = async(tareas = [])=>{ 
+const mostrarListadoCheckList = async (tareas = []) => {
 
     const choices = tareas.map((tarea, i) => {
-        const idx = `${i+1}`.green
+        const idx = `${i + 1}`.green
         return {
             value: tarea.id,
             name: `${idx}. ${tarea.desc} `,
@@ -154,5 +158,5 @@ module.exports = {
     listadoTareasBorrar,
     confirmar,
     mostrarListadoCheckList
-    
+
 }

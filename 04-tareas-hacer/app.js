@@ -48,10 +48,10 @@ const main = async () => {
             case '6':
                 const id = await listadoTareasBorrar(tareas.listadoArr)
                 if ( id !== 0) {
-                    const ok = await confirmar('Estas seguro?')
+                    const ok = await confirmar(`${'Estas seguro?'.bgRed.white}❗`)
                     if (ok) {
                         tareas.borrarTareas(id);
-                        console.log("tarea borrada")
+                        console.log("tarea borrada ✅")
                     };
                 }
                 break;

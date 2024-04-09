@@ -2,6 +2,7 @@ const Tarea = require('./tarea')
 
 class Tareas {
     _listado = {};
+
     get listadoArr() {
         const listado = [];
         Object.keys(this._listado).forEach(key => {
@@ -30,7 +31,9 @@ class Tareas {
         const tarea = new Tarea(desc);
         this._listado[tarea.id] = tarea;
     }
-
+    editarTarea(){
+        //AGREGAR FUNCIONALIDAD
+    }
     listadoCompleto() {
         console.log("");
 
