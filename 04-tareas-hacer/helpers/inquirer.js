@@ -6,7 +6,7 @@ const preguntas = [
     {
         type: 'list',
         name: 'opcion',
-        message: "¿Que desea hacer?",
+        message: "¿QUE DESEA HACER?".green,
         choices: [
             {
                 value: '1',
@@ -45,9 +45,9 @@ const preguntas = [
 
 const inquirerMenu = async () => {
     console.clear();
-    console.log('==========================='.green);
-    console.log(`✨ ${'Seleccione una opcion ✨'.white}`);
-    console.log('==========================='.green);
+    console.log('====================================================='.green);
+    console.log(`        ✨     ${'Seleccione una opción      ✨'.white}`);
+    console.log('=====================================================\n'.green);
     const { opcion } = await inquirer.prompt(preguntas)
 
     return opcion;
@@ -66,7 +66,7 @@ const pausa = async () => {
 }
 
 const leerInput = async (message) => {
-
+    
     const question = [
         {
             type: 'input',
@@ -105,7 +105,7 @@ const listadoTareasBorrar = async (tareas = []) => {
         {
             type: 'list',
             name: 'id',
-            message: 'Borrar',
+            message: 'Selecione la tarea que desea borrar ⛔'.green,
             choices
         }
     ]
@@ -141,7 +141,7 @@ const mostrarListadoCheckList = async (tareas = []) => {
         {
             type: 'checkbox',
             name: 'ids',
-            message: 'Seleccione',
+            message: ' - Seleccione la(s) tarea(s) que desea completar - '.green,
             choices
         }
     ]

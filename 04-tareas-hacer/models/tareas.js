@@ -31,27 +31,28 @@ class Tareas {
         const tarea = new Tarea(desc);
         this._listado[tarea.id] = tarea;
     }
-    editarTarea(){
+    editarTarea() {
         //AGREGAR FUNCIONALIDAD
     }
     listadoCompleto() {
         console.log("");
 
-        console.log('  """""""""lISTADO DE TAREAS""""""""""  \n'.bgBlue.bold);
-        //formas de hacerlo directamente desde el objeto
+        console.log('\n  """""""""lISTADO DE TAREAS""""""""""  \n'.bgBlue.bold);
 
-        // const nuevoListado = Object.values(this._listado).map((tarea, key) => {
-        //     console.log(`${`${key+1}`.green}${'.'.green} ${tarea.desc} ${tarea.completadoEn ? ' Completada '.bgGreen.white : ' Pendiente '.red}   `);
+        let maxLength = 0; // variable para almacenar la longitud máxima de la descripción
 
-        // })
+        this.listadoArr.forEach(tarea => {
+            if (tarea.desc.length > maxLength) {
+                maxLength = tarea.desc.length; // actualiza la longitud máxima si se encuentra una descripción más larga
+            }
+        });
 
         this.listadoArr.forEach((tarea, index) => {
             const idx = `${index + 1}.`.green;
-            const desc = tarea.desc
-            const estado = tarea.completadoEn ? ' Completada '.bgGreen.white : ' Pendiente '.red;
+            const desc = tarea.desc.padEnd(maxLength); // ajusta la longitud de la descripción para que todas tengan el mismo tamaño
+            const estado = tarea.completadoEn ? ' ✅ Completada '.green : ' 🕗 Pendiente '.red;
 
-
-            console.log(`${idx} ${desc} :: ${estado}`);
+            console.log(`${idx} ${desc} | Estado: ${estado}`);
         });
     }
 
@@ -71,17 +72,28 @@ class Tareas {
         //     const estado = tarea.completadoEn ? ' Completada '.bgGreen.white : ' Pendiente '.red;
         //     console.log(`${idx} ${desc} :: ${estado}`);
         // });
+        let maxLength = 0; // variable para almacenar la longitud máxima de la descripción
 
+        this.listadoArr.forEach(tarea => {
+            if (tarea.desc.length > maxLength) {
+                maxLength = tarea.desc.length; // actualiza la longitud máxima si se encuentra una descripción más larga
+            }
+        });
+        if (completadas) {
+            console.log('\n         """" lISTADO DE TAREAS COMPLETAS """"  \n'.green.bold);
 
-        console.log('  """""""""lISTADO DE TAREAS""""""""""  \n'.bgBlue.bold);
+        } else {
+                console.log('\n      """" lISTADO DE TAREAS PENDIENTES """"  \n'.red.bold);
+        }
         let contador = 0;
         this.listadoArr.forEach((tarea) => {
-            const { desc, completadoEn } = tarea
-            const estado = tarea.completadoEn ? ' Completada '.bgGreen.white : ' Pendiente '.red;
+            let { desc, completadoEn } = tarea
+            desc = tarea.desc.padEnd(maxLength);
+            const estado = tarea.completadoEn ? ' Completada '.green : '🕗 Pendiente '.red;
             if (completadas) {
                 if (tarea.completadoEn) {
                     contador += 1
-                    console.log(`${contador + '.'.green} ${desc} :: ${completadoEn.green}`);
+                    console.log(` ${contador + '.'.green} ${desc} :: ✅ ${completadoEn.green}`);
                 }
             } else {
                 if (!completadoEn) {
