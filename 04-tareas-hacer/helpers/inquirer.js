@@ -7,6 +7,7 @@ const preguntas = [
         type: 'list',
         name: 'opcion',
         message: "¿QUE DESEA HACER?".green,
+        pageSize: 10,
         choices: [
             {
                 value: '1',
@@ -30,7 +31,11 @@ const preguntas = [
             },
             {
                 value: '6',
-                name: `${'6'.green}. Borrar tarea`
+                name: `${'6'.green}. Editar tarea`
+            },
+            {
+                value: '7',
+                name: `${'7'.green}. Borrar tarea`
             },
             {
                 value: '0',
@@ -113,6 +118,32 @@ const listadoTareasBorrar = async (tareas = []) => {
     return id
 
 }
+const listadoTareasEditar = async (tareas = []) => {
+
+    const choices = tareas.map((tarea, i) => {
+        const idx = `${i + 1}`.green
+        return {
+            value: tarea.id,
+            name: `${idx}. ${tarea.desc} `
+        }
+    });
+
+    choices.unshift({
+        value: 0,
+        name: '0.'.green + ' Cancelar'
+    })
+    const preguntas = [
+        {
+            type: 'list',
+            name: 'id',
+            message: 'Selecione la tarea que desea Editar'.green,
+            choices
+        }
+    ]
+    const { id } = await inquirer.prompt(preguntas)
+    return id
+
+}
 
 const confirmar = async (message) => {
     const question = [
@@ -157,6 +188,7 @@ module.exports = {
     leerInput,
     listadoTareasBorrar,
     confirmar,
-    mostrarListadoCheckList
+    mostrarListadoCheckList,
+    listadoTareasEditar
 
 }

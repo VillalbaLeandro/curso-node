@@ -31,8 +31,14 @@ class Tareas {
         const tarea = new Tarea(desc);
         this._listado[tarea.id] = tarea;
     }
-    editarTarea() {
-        //AGREGAR FUNCIONALIDAD
+    async editarTareas(id) {
+        if (this._listado[id]) {
+            const nuevaDescripcion = await leerInput('Ingrese la nueva descripción para la tarea:');
+            this._listado[id].desc = nuevaDescripcion;
+            console.log('Tarea editada correctamente.');
+        } else {
+            console.log('La tarea especificada no existe.');
+        }
     }
     listadoCompleto() {
         console.log("");
@@ -57,21 +63,7 @@ class Tareas {
     }
 
     listarPendiendtesCompletadas(completadas = true) {
-        // const filtradas = this.listadoArr.filter(tarea => {
-        //     return completadas ? tarea.completadoEn !== null : tarea.completadoEn === null;
-        // });
-
-        // console.log("");
-
-        // const titulo = completadas ? 'Tareas Completadas' : 'Tareas Pendientes';
-        // console.log(`  "${titulo}" \n`.bgBlue.bold);
-
-        // filtradas.forEach((tarea, index) => {
-        //     const idx = `${index + 1}.`.green;
-        //     const desc = tarea.desc;
-        //     const estado = tarea.completadoEn ? ' Completada '.bgGreen.white : ' Pendiente '.red;
-        //     console.log(`${idx} ${desc} :: ${estado}`);
-        // });
+        
         let maxLength = 0; // variable para almacenar la longitud máxima de la descripción
 
         this.listadoArr.forEach(tarea => {
