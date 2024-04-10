@@ -5,20 +5,20 @@ const preguntas = [
     {
         type: 'list',
         name: 'opcion',
-        message: "¿QUE DESEA HACER?".green,
+        message: "¿SELECCIONE UNA OPCIÓN? \n".green,
         pageSize: 10,
         choices: [
             {
                 value: 1,
-                name: `${'1'.green}. Buscar ciudad`
+                name: `  🔍  Buscar Ciudad\n`
             },
             {
                 value: 2,
-                name: `${'2'.green}. Historial`
+                name: `  📑  Historial\n`
             },
             {
                 value: 0,
-                name: `${'0'.green}. Salir`
+                name: `  ❌  Salir\n`
             }
         ]
     }
@@ -77,7 +77,7 @@ const listarLugares = async (lugares = []) => {
         const idx = `${i + 1}`.green
         return {
             value: lugar.id,
-            name: `${idx}. ${lugar.nombre} `
+            name: `➖ ${idx}. ${lugar.nombre} `
         }
     });
 
@@ -90,7 +90,7 @@ const listarLugares = async (lugares = []) => {
         {
             type: 'list',
             name: 'id',
-            message: 'Selecione lugar: '.green,
+            message: 'Selecione una de las ubicacione: '.green,
             choices
         }
     ]

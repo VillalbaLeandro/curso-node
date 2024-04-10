@@ -13,11 +13,11 @@ const main = async () => {
 
         switch (opt) {
             case 1:
-                    console.log("Seleccione una opcion: ");
                     const termino = await leerInput("Ingrese un lugar: ")
                     const lugar = await busquedas.ciudad( termino )
                     const id = await listarLugares(lugar)
                     console.log(id);
+                    
             break;
 
             case 2:

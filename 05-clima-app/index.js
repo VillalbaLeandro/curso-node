@@ -14,29 +14,34 @@ const main = async () => {
         // console.log({ opt });    Imprimir la opcion que selecciono el usuario
         switch (opt) {
             case 1:
-                console.log('usted selecciono la opcion', { opt });
-                const termino = await leerInput('Ingrese cuidad: ')
+                //guardar la entrada del usuario
+                const termino = await leerInput('Ingrese país, ciudad, lugar o dirección: ')
+                //usar el termino para traer todos los lugares de la api en un array
                 const lugares = await busquedas.ciudad(termino)
+                //de todos los lugares extrae el id del lugar que seleccione el usuario
                 const id = await listarLugares(lugares);
-                console.log(id);
+                const lugarSeleccionado = lugares.find(l => l.id === id );
+                // //muestra el id del lugar seleccionado
+                // // console.log(lugarSeleccionado);
 
                 //mostrar mensaje para que la persona escriba
 
                 //Busdcar los lugars
 
-                // Seleccionar el lugar
+                 // Seleccionar el lugar
 
                 // Clima
 
                 //Mostrar resultados
 
-                console.log('\nInformación de la ciudad\n'.green);
-                console.log('Ciudad: ',);
-                console.log('Latitud: ',);
-                console.log('lng: ',);
-                console.log('Temperatura: ',);
-                console.log('Min: ',);
-                console.log('Max: ',);
+                console.log('\nInformación del lugar: \n'.green.bold);
+                console.log('🧭 - Lugar seleccionado: ', lugarSeleccionado.texto.yellow.bold, '\n');
+                console.log('🌍 - Ciudad: ', lugarSeleccionado.nombre.yellow.bold, '\n');
+                console.log('🌐 - Latitud: ',lugarSeleccionado.lat.toString().yellow.bold, '\n');
+                console.log('🌐 - Longitud: ',lugarSeleccionado.lng.toString().yellow.bold, '\n');
+                console.log('🌡️  - Temperatura: ', '\n');
+                console.log('🥶 - Min: ', '\n');
+                console.log('🥵 - Max: ', '\n');
                 break;
             case 2:
                 console.log('usted selecciono la opcion', { opt });
@@ -52,6 +57,10 @@ const main = async () => {
         }
         if (opt !== 0) await pausa();
     } while (opt != 0);
+
+    if (opt === 0) {
+        console.clear();
+        console.log(`${'\n\n-- Programa finalizado --'.bgRed}\n\n${'...Vuelva pronto! 👋'.green}\n`)};
 
 }
 
