@@ -27,19 +27,6 @@ const main = async () => {
 
                 const climaLugarSelec = await busquedas.climaLugar(lugarSeleccionado.lat, lugarSeleccionado.lng)
 
-                // //muestra el id del lugar seleccionado
-                // // console.log(lugarSeleccionado);
-
-                //mostrar mensaje para que la persona escriba
-
-                //Busdcar los lugars
-
-                // Seleccionar el lugar
-
-                // Clima
-
-                //Mostrar resultados
-
                 console.log('\nInformación del lugar: \n'.green.bold);
                 console.log('🧭 - Lugar seleccionado: ', lugarSeleccionado.texto.yellow.bold, '\n');
                 console.log('🌍 - Ciudad: ', lugarSeleccionado.nombre.yellow.bold, '\n');

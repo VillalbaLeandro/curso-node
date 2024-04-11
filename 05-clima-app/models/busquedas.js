@@ -2,7 +2,6 @@ const fs = require('fs')
 
 const axios = require('axios');
 
-const dbPath = './db/database.json'
 class Busquedas {
     dbPath = './db/database.json'
 
@@ -58,7 +57,7 @@ class Busquedas {
             const instance = axios.create({
                 baseURL: `https://api.openweathermap.org/data/2.5/weather`,
                 params: { ...this.paramsWatherMap, lat, lon }
-            });;
+            });
             const resp = await instance.get()
             const { weather, main } = resp.data
             console.log(resp);
@@ -104,10 +103,10 @@ class Busquedas {
     }
 
     leerDB(){
-        if (!fs.existsSync(dbPath)) {
+        if (!fs.existsSync(this.dbPath)) {
             return;
         }
-        const info = fs.readFileSync(dbPath, {encoding: 'utf-8'});
+        const info = fs.readFileSync(this.dbPath, {encoding: 'utf-8'});
         const data = JSON.parse(info)
         this.historial = data.historial
         return this.historial 
