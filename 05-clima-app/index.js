@@ -20,7 +20,13 @@ const main = async () => {
                 const lugares = await busquedas.ciudad(termino)
                 //de todos los lugares extrae el id del lugar que seleccione el usuario
                 const id = await listarLugares(lugares);
-                const lugarSeleccionado = lugares.find(l => l.id === id );
+                if (id === '0') continue;
+                const lugarSeleccionado = lugares.find(l => l.id === id);
+
+                busquedas.agregarHistorial(lugarSeleccionado.nombre)
+
+                const climaLugarSelec = await busquedas.climaLugar(lugarSeleccionado.lat, lugarSeleccionado.lng)
+
                 // //muestra el id del lugar seleccionado
                 // // console.log(lugarSeleccionado);
 
@@ -28,7 +34,7 @@ const main = async () => {
 
                 //Busdcar los lugars
 
-                 // Seleccionar el lugar
+                // Seleccionar el lugar
 
                 // Clima
 
@@ -37,21 +43,19 @@ const main = async () => {
                 console.log('\nInformación del lugar: \n'.green.bold);
                 console.log('🧭 - Lugar seleccionado: ', lugarSeleccionado.texto.yellow.bold, '\n');
                 console.log('🌍 - Ciudad: ', lugarSeleccionado.nombre.yellow.bold, '\n');
-                console.log('🌐 - Latitud: ',lugarSeleccionado.lat.toString().yellow.bold, '\n');
-                console.log('🌐 - Longitud: ',lugarSeleccionado.lng.toString().yellow.bold, '\n');
-                console.log('🌡️  - Temperatura: ', '\n');
-                console.log('🥶 - Min: ', '\n');
-                console.log('🥵 - Max: ', '\n');
+                console.log('❔ - Como estará el cielo hoy?: ', climaLugarSelec.desc.yellow.bold, '\n');
+                console.log('🌡️  - Temperatura: ', climaLugarSelec.temp.toString().yellow.bold, '°c \n'.yellow.bold);
+                console.log('🥶 - Min: ', climaLugarSelec.tempMin.toString().yellow.bold, '°c\n'.bold.yellow.bold);
+                console.log('🥵 - Max: ', climaLugarSelec.tempMax.toString().yellow.bold, '°c\n'.yellow.bold);
+                console.log('💧 - Humedad: ', climaLugarSelec.humedad.toString().yellow.bold, '%\n'.yellow.bold);
+                console.log('🌐 - Latitud: ', lugarSeleccionado.lat.toString().yellow.bold, '\n'.yellow.bold);
+                console.log('🌐 - Longitud: ', lugarSeleccionado.lng.toString().yellow.bold, '\n'.yellow.bold);
                 break;
             case 2:
-                console.log('usted selecciono la opcion', { opt });
-
-                break;
-            case 3:
-                console.log('usted selecciono la opcion', { opt });
-
-                break;
-
+                busquedas.historialCapitalizado.forEach((lugar, i) => {
+                    const idx = i + 1;
+                    console.log(lugar);
+                })
             default:
                 break;
         }
@@ -60,7 +64,8 @@ const main = async () => {
 
     if (opt === 0) {
         console.clear();
-        console.log(`${'\n\n-- Programa finalizado --'.bgRed}\n\n${'...Vuelva pronto! 👋'.green}\n`)};
+        console.log(`${'\n\n-- Programa finalizado --'.bgRed}\n\n${'...Vuelva pronto! 👋'.green}\n`)
+    };
 
 }
 
