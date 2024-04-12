@@ -18,6 +18,7 @@ class Busquedas {
         return historialCapitalizado;
     }
     
+    
     get paramsMapbox() {
         return {
             'access_token': process.env.MAPBOX_KEY,
