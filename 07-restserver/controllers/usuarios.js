@@ -1,42 +1,85 @@
 const { response, request } = require('express')
+const bcryptjs = require('bcryptjs')
+const Usuario = require('../models/usuario');
 
-const usuariosGet = (req = request, res = response) => {
-    const { q, nombre= 'No name', apikey, page = 1, limit} = req.query;
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+const usuariosGet = async (req = request, res = response) => {
+    // Paginación 
+    const query = { estado: true }
+    const { limite = 5, desde = 0 } = req.query
+
+    const [usuarios, usuariosActivos, totalRegistros] = await Promise.all([
+        Usuario.find(query)
+            .skip(Number(desde))
+            .limit(Number(limite)),
+        Usuario.countDocuments(query),
+        Usuario.countDocuments()
+    ])
+
+    const totalMostrados = usuarios.length
+
     res.json({
-        msg: 'get API - Controlador',
-        q,
-        nombre,
-        apikey,
-        page,
-        limit
+        totalRegistros,
+        usuariosActivos,
+        totalMostrados,
+        usuarios
     })
 }
-const usuariosPost = (req, res) => {
-    const { nombre, edad } = req.body;
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+const usuariosPost = async (req, res) => {
+    const { nombre, correo, password, rol } = req.body;
+    const usuario = new Usuario({ nombre, correo, password, rol });
+    // Encriptar la contraseña
+    const salt = bcryptjs.genSaltSync(); //Numero de vueltas, por defecto 10
+    usuario.password = bcryptjs.hashSync(password, salt) //se llama a password que es la propiedad que esta en el Modelo Usuario. 
+    // Guardar en BD
+    await usuario.save();
     res.json({
-        msg: 'post API',
-        nombre, 
-        edad
+        usuario
     })
 }
-const usuariosPut = (req, res) => {
+
+// -----------------------------------------------------------------------------------------------------------------------------------------------------------
+const usuariosPut = async (req, res) => {
     const id = req.params.id;
-    res.json({
-        msg: 'put API',
-        id
-    })
+    //excluimos los atributos que no queremos operar
+    const { _id, password, google, ...resto } = req.body
+
+    //Validar contra base de datos
+    if (password) {
+        // Encriptar la contraseña
+        const salt = bcryptjs.genSaltSync(); //Numero de vueltas, por defecto 10
+        resto.password = bcryptjs.hashSync(password, salt) //se llama a password que es la propiedad que esta en el Modelo Usuario. 
+    }
+    // busca y actualiza el usuario por su id(1er parametro) con lo que le llega del rest operator
+    const usuario = await Usuario.findByIdAndUpdate(id, resto)
+
+    // retornamos los datos seleccionados al usuario 
+    res.json(usuario)
 }
+
+/// -----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+const usuariosDelete = async (req, res) => {
+    const { id } = req.params
+
+    // const usuario = await Usuario.findByIdAndDelete(id);
+
+    const usuario = await Usuario.findByIdAndUpdate(id, { estado: false })
+    res.json(usuario)
+}
+
+/// -----------------------------------------------------------------------------------------------------------------------------------------------------------
+
 const usuariosPatch = (req, res) => {
     res.json({
         msg: 'Patch API'
     })
 }
-const usuariosDelete = (req, res) => {
-    res.json({
-        msg: 'delete API'
-    })
-}
-
 
 module.exports = {
     usuariosGet,
