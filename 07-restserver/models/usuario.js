@@ -1,5 +1,6 @@
 
-const { Schema, model } = require('mongoose')
+const { Schema, model } = require('mongoose');
+const rolUsuario = require('../utils/roles');
 
 
 const UsuarioSchema = Schema({
@@ -22,7 +23,7 @@ const UsuarioSchema = Schema({
     rol: {
         type: String,
         required: true,
-        enum: ['ADMIN_ROLE', 'USER_ROLE']
+        enum: [rolUsuario.admin, rolUsuario.user]
     },
     estado: {
         type: Boolean,
@@ -36,7 +37,8 @@ const UsuarioSchema = Schema({
 
 UsuarioSchema.methods.toJSON = function () {
     // Desestructura el objeto this (el objeto de usuario actual)
-    const { __v, password, ...usuario } = this.toObject();
+    const { __v, password, _id, ...usuario } = this.toObject();
+    usuario.uid = _id;
     // Retorna un nuevo objeto JSON que excluye los campos __v y password
     return usuario;
 }
