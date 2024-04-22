@@ -18,6 +18,7 @@ const { usuariosGet,
 const rolUsuario = require('../utils/roles');
 
 const router = Router();
+
 // -----Traer todos los usuarios - en los params key values limite = 5 y desde = 0  <--- por defecto   ----------------------------------------------------
 router.get('/', usuariosGet)
 
@@ -62,6 +63,6 @@ router.delete('/:id', [
 ], usuariosDelete);
 
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------
-// router.patch('/', usuariosPatch)
+router.patch('/', usuariosPatch)
 
 module.exports = router;
