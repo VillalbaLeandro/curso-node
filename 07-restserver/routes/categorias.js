@@ -1,44 +1,60 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-
-
-const { validarCampos, validarJWT } = require('../middlewares');
-const { categoriasGet } = require('../controllers/categorias');
-
+const { validarCampos, validarJWT, adminRole } = require('../middlewares');
+const { crearCategoria, obtenerCategorias, obtenerCategoria, actualizarCategoria, borrarCategoria } = require('../controllers/categorias');
+const { existeCategoriaPorId, existeCategoriaPorNombre } = require('../helpers/db-validators');
 const router = Router();
 
 //obtener todas las categorias - publico
-router.get('/', (req, res) => {
-    res.json('get');
-})
-
+router.get('/', obtenerCategorias)
 
 // obtener una categoria por id - publico 
-router.get('/:id', (req, res) => {
-    res.json('get -id');
-})
-
+router.get('/:id', [
+    check('id')
+        .isMongoId()
+        .withMessage('El id ingresado no es valido')
+        .custom(existeCategoriaPorId)
+        .withMessage('El id ingresado  no existe'),
+    validarCampos
+],
+    obtenerCategoria)
 
 // Crear una nueva categoria - privado - cualquier persona con un token válido
 router.post('/', [
     validarJWT,
     check('nombre', 'El nombre es requerido').notEmpty(),
-    validarCampos], (req, res) => {
-        res.json('post');
-    })
-
+    validarCampos
+],
+    crearCategoria)
 
 // Atualizar un registro por id - privado - cualquiera con un token valido
-router.put('/:id', (req, res) => {
-    res.json('put');
-})
+router.put('/:id', [
+    validarJWT,
+    check('id')
+        .isMongoId()
+        .withMessage('El id ingresado no es valido')
+        .custom(existeCategoriaPorId)
+        .withMessage('El id ingresado  no existe'),
+    check('nombre', 'El nombre es requerido')
+        .notEmpty()
+        .custom(existeCategoriaPorNombre)
+        .withMessage('La categoria ingresada ya existe'),
+    validarCampos
+],
+    actualizarCategoria)
 
 // delete o borrar una categoria - privado - admin
-router.delete('/:id', (req, res) => {
-    res.json('delete');
-})
-
-
+router.delete('/:id', [
+    validarJWT,
+    adminRole,
+    check('id')
+        .isMongoId()
+        .withMessage('El id ingresado no es valido')
+        .custom(existeCategoriaPorId)
+        .withMessage('El id ingresado  no existe'),
+    validarCampos
+],
+    borrarCategoria)
 
 module.exports = router;
