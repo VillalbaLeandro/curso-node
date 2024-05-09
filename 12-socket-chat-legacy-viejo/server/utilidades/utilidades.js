@@ -2,7 +2,7 @@ const crearMensaje = (nombre, mensaje) => {
     return {
         nombre,
         mensaje,
-        fetch: new Date().getTime()
+        fecha: new Date().getTime()
     }
 
 }
